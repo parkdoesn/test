@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Pygame Web Game</title>
+    <script src="https://pygame-web.github.io/pygbag/pygame.js"></script>
+</head>
+<body>
+    <div id="game-container" style="text-align: center;">
+        <h1>My Pygame Game</h1>
+        <p>Loading... Please wait.</p>
+        <canvas id="pygame-canvas" width="640" height="480"></canvas>
+    </div>
+
+    <script type="application/python" id="pygame-script">
+        import pygame
+        from pygame.locals import *
+
+        pygame.init()
+        screen = pygame.display.set_mode((640, 480))
+        pygame.display.set_caption("Bouncing Ball")
+
+        ball = pygame.image.load('images/ball.png')
+        ballrect = ball.get_rect()
+
+        speed = [2, 2]
+        clock = pygame.time.Clock()
+
+        running = True
+        while running:
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    running = False
+
+            ballrect = ballrect.move(speed)
+            if ballrect.left < 0 or ballrect.right > screen.get_width():
+                speed[0] = -speed[0]
+            if ballrect.top < 0 or ballrect.bottom > screen.get_height():
+                speed[1] = -speed[1]
+
+            screen.fill((255, 255, 255))
+            screen.blit(ball, ballrect)
+            pygame.display.flip()
+
+            clock.tick(60)
+
+        pygame.quit()
+    </script>
+</body>
+</html>
